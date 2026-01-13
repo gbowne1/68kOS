@@ -1,24 +1,26 @@
 /*
  * kernel/main.c
- * The C entry point. Since we have no drivers yet,
- * we perform a simple infinite loop or a memory write
- * to verify the kernel is running.
  */
 
-#include <stdint.h>
+#include <kernel/mm.h>
+#include <kernel/syscalls.h>
+#include <drivers/char.h>
+#include <drivers/cpu.h>
 
 void kmain(void) {
-    /* * At this stage, we have no screen or serial driver.
-     * A common 'heartbeat' for 68k emulators is writing 
-     * a value to a specific memory address or a 
-     * known I/O port.
-     */
+    /* Initialize Serial for debug output */
+    serial_puts("Booting MC68000 OS...\n");
 
-    volatile uint32_t *heartbeat = (uint32_t *)0x40000;
-    uint32_t counter = 0;
+    /* Setup Memory Management */
+    mm_init();
+    serial_puts("Memory Manager Initialized.\n");
+
+    /* Enable Interrupts on the CPU */
+    cpu_enable_interrupts();
+    serial_puts("Interrupts Enabled. Kernel ready.\n");
 
     for (;;) {
-        *heartbeat = counter++;
+        /* Main Kernel Loop */
     }
 }
 
