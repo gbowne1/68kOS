@@ -15,6 +15,8 @@ typedef struct {
 } cpu_context_t;
 
 typedef struct task {
+    void *stack_ptr;
+    int tid;
     uint32_t id;
     cpu_context_t context;
     struct task *next;
