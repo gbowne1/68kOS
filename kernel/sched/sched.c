@@ -8,9 +8,9 @@
 static task_t *current_task;
 
 void schedule(void) {
-    /* * Switch current_task to the next task in the list.
-     * This is usually called from a timer interrupt.
-     */
+    if (current_task && current_task->next) {
+        current_task = current_task->next;
+    }
 }
 
 /* End of file */
